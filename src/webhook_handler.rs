@@ -1,6 +1,6 @@
 use std::collections::BTreeMap;
 use std::fs::File;
-use std::io::{IoSliceMut, Read};
+use std::io::{Read};
 use discord_webhook2::message::Message;
 use discord_webhook2::webhook::DiscordWebhook;
 pub async fn send_files(image_path:&str) {

@@ -21,7 +21,7 @@ use xcap::{Monitor, Window};
 
 
 
-pub fn window_screenshot(window_name: String) -> Vec<String> {
+pub fn window_screenshot(_window_name: String) -> Vec<String> {
     let mut image_paths:Vec<String> = vec![];
     let windows = Window::all().unwrap();
     for window in windows.iter().clone() {
@@ -51,7 +51,6 @@ fn save_normalized(image:RgbaImage, name: &str) -> String{
     return format!("images/monitor-{}.png", normalized(name));
 }
 pub fn full_screenshot() ->String{
-    let monitors = Monitor::all().unwrap();
     let mut t = String::new();
 
         let monitors = Monitor::all().unwrap();
