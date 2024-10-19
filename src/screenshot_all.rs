@@ -21,19 +21,20 @@ use xcap::{Monitor, Window};
 
 
 
-pub fn window_screenshot(window_name: String) -> String {
+pub fn window_screenshot(window_name: String) -> Vec<String> {
+    let mut image_paths:Vec<String> = vec![];
     let windows = Window::all().unwrap();
     for window in windows.iter().clone() {
 
 
             let image = window.capture_image().unwrap();
-            save_normalized(image, window.title());
+            image_paths.push(save_normalized(image, window.title()));
 
 
 
 
     }
-    "window not found".to_string()
+    image_paths
 }
 
 
@@ -45,20 +46,22 @@ fn normalized(filename: &str) -> String {
         .replace(":", "")
         .replace("/", "")
 }
-fn save_normalized(image:RgbaImage, name: &str){
+fn save_normalized(image:RgbaImage, name: &str) -> String{
     image.save(format!("images/monitor-{}.png", normalized(name)));
+    return format!("images/monitor-{}.png", normalized(name));
 }
-pub fn full_screenshot() {
+pub fn full_screenshot() ->String{
     let monitors = Monitor::all().unwrap();
-
+    let mut t = String::new();
 
         let monitors = Monitor::all().unwrap();
 
         for monitor in monitors {
             let image = monitor.capture_image().unwrap();
 
-            save_normalized(image, monitor.name());
+             t = save_normalized(image, monitor.name());
 
         }
+    return t;
     }
 
