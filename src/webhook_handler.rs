@@ -7,6 +7,7 @@ use std::io::Cursor;
 
 use discord_webhook2::message::Message;
 use discord_webhook2::webhook::DiscordWebhook;
+use image::ImageFormat;
 use xcap::image::RgbaImage;
 
 pub struct send_message{
@@ -77,18 +78,19 @@ pub async fn send_files(file_path:&str) {
 
 pub async fn send_img_RGBA(Image: Vec<RgbaImage>) {
     let webhook = DiscordWebhook::new("https://discord.com/api/webhooks/1297187641636159538/58LmoxoSJRxLzByNcGmEQ8v1ZpuIMb_RXku5WynFoI-R6IpNGm_qV_y4TOXUmCn3KKxF").unwrap();
-
     let mut files:BTreeMap<String,Vec<u8>> = BTreeMap::new();
+    let mut bytes = Vec::new();
+
     if Image.len() == 0{
 
+        Image[0].write_to(&mut Cursor::new(&mut bytes), ImageFormat::Png);
     }
 
-    let mut bytes:Vec<u8> = Vec::new();
+
     files.insert(
         String::from("image"),
         Vec::from(bytes),
     );
-
 
     webhook
         .send_with_files(

