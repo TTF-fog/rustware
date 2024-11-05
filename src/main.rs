@@ -1,7 +1,7 @@
 use netif;
 use crate::webhook_handler::{send_files, send_message};
 use sysinfo::{System};
-use get_if_addrs::get_if_addrs;
+
 pub mod screenshot_all;
 
 mod webhook_handler;

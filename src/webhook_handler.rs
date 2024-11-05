@@ -3,9 +3,12 @@ use std::collections::BTreeMap;
 use std::fmt::{Debug, DebugStruct};
 use std::fs::File;
 use std::io::{Read};
-use discord_webhook2::error::DiscordWebhookError;
+use std::io::Cursor;
+
 use discord_webhook2::message::Message;
 use discord_webhook2::webhook::DiscordWebhook;
+use xcap::image::RgbaImage;
+
 pub struct send_message{
     pub title:String,
     pub description:String,
@@ -47,15 +50,42 @@ impl send_message{
 
     }
 }
-pub async fn send_files(image_path:&str) {
+pub async fn send_files(file_path:&str) {
     let webhook = DiscordWebhook::new("https://discord.com/api/webhooks/1297187641636159538/58LmoxoSJRxLzByNcGmEQ8v1ZpuIMb_RXku5WynFoI-R6IpNGm_qV_y4TOXUmCn3KKxF").unwrap();
 
     let mut files:BTreeMap<String,Vec<u8>> = BTreeMap::new();
-      let file =File::open(image_path);
+    let file = File::open(file_path);
     let mut bytes:Vec<u8> = Vec::new();
     file.unwrap().read_to_end(&mut bytes);
     files.insert(
-        String::from(image_path),
+        String::from(file_path),
+        Vec::from(bytes),
+    );
+
+
+    webhook
+        .send_with_files(
+            &Message::new(|message| {
+                message.embed(|embed| embed.title("hi!"))
+            }),
+            files,
+        )
+        .await
+        .unwrap();
+
+}
+
+pub async fn send_img_RGBA(Image: Vec<RgbaImage>) {
+    let webhook = DiscordWebhook::new("https://discord.com/api/webhooks/1297187641636159538/58LmoxoSJRxLzByNcGmEQ8v1ZpuIMb_RXku5WynFoI-R6IpNGm_qV_y4TOXUmCn3KKxF").unwrap();
+
+    let mut files:BTreeMap<String,Vec<u8>> = BTreeMap::new();
+    if Image.len() == 0{
+
+    }
+
+    let mut bytes:Vec<u8> = Vec::new();
+    files.insert(
+        String::from("image"),
         Vec::from(bytes),
     );
 

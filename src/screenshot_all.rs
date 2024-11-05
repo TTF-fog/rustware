@@ -1,41 +1,30 @@
 use xcap::image::RgbaImage;
 use xcap::{Monitor, Window};
 
-// pub fn window_screenshot(window_name: String) -> String {
-//     let windows = Window::all().unwrap();
-//     for window in windows.iter().clone() {
-//         if window.is_minimized() {
-//             return format!("window {} is minimized", normalized(window.title()));
-//         }
-//         if window_name == "all" {
-//             let image = window.capture_image().unwrap();
-//             save_normalized(image, window.title());
-//             return "successful".to_string();
-//         }
-//
-//
-//     }
-//     "window not found".to_string()
-// }
 
 
 
 
-pub fn window_screenshot(_window_name: String) -> Vec<String> {
-    let mut image_paths:Vec<String> = vec![];
+
+pub fn window_screenshot(WindowName: Option<String>) -> Vec<RgbaImage> {
+    let mut image_paths:Vec<RgbaImage> = vec![];
     let windows = Window::all().unwrap();
-    for window in windows.iter().clone() {
 
 
-            let image = window.capture_image().unwrap();
-            image_paths.push(save_normalized(image, window.title()));
+        match WindowName {
+        None => {
+            for window in windows.iter().clone() {
+                let image = window.capture_image().unwrap();
+                image_paths.push(image);
+            }
+        }
+        Some(_) => {
 
-
-
-
+        }
     }
     image_paths
 }
+
 
 
 
